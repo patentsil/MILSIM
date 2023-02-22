@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://dk2ygg3uc00np"]
+
+[ext_resource type="Script" path="res://CharacterScripts/character.gd" id="1_bs1x2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qj3xx"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_g0dfk"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_mwh5o"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[sub_resource type="SystemFont" id="SystemFont_lxnkj"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_i6cq3"]
+font = SubResource("SystemFont_lxnkj")
+font_size = 25
+
+[node name="character" type="CharacterBody3D"]
+script = ExtResource("1_bs1x2")
+JUMP_VELOCITY = 20.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_qj3xx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_g0dfk")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70475, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34161, 0)
+rotation_edit_mode = 1
+billboard = 1
+texture = SubResource("ViewportTexture_mwh5o")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+own_world_3d = true
+transparent_bg = true
+gui_disable_input = true
+
+[node name="Label" type="Label" parent="Sprite3D/SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.5
+offset_top = -19.0
+offset_right = 75.5
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Player name"
+label_settings = SubResource("LabelSettings_i6cq3")
+horizontal_alignment = 1
