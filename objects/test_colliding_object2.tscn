@@ -9,15 +9,14 @@ points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 
 
 [node name="TestCollidingObject" type="RigidBody3D"]
 mass = 0.27
-gravity_scale = 0.0
 can_sleep = false
 script = ExtResource("1_ag7wm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.403561, 0.914953, 0, -0.914953, 0.403561, 0, 0.893736, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.893736, 0)
 mesh = SubResource("BoxMesh_ryj3g")
 skeleton = NodePath("../../MultiplayerSpawner")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.403561, 0.914953, 0, -0.914953, 0.403561, 0, 0.893736, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.893736, 0)
 shape = SubResource("ConvexPolygonShape3D_k7hqj")

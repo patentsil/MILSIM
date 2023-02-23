@@ -49,12 +49,12 @@ _spawnable_scenes = PackedStringArray("res://character.tscn")
 spawn_path = NodePath("../..")
 
 [node name="TestCollidingObject" parent="." instance=ExtResource("4_0ihgw")]
-mass = 999.55
-can_sleep = false
+transform = Transform3D(0.975523, -0.219897, 4.44089e-16, 0.203776, 0.904004, 0.375836, -0.0826454, -0.366637, 0.926686, 0, 0.337691, 0)
+mass = 0.03
+continuous_cd = true
 freeze_mode = 1
 
 [node name="TestCollidingObject2" parent="." instance=ExtResource("5_afnsq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000747204, 0.00308943, -3.78207)
+transform = Transform3D(0.875481, -0.483249, -0.00203487, 0.483248, 0.875483, -0.000655978, 0.00209849, -0.000409053, 0.999998, 0.000747204, 0.00308943, -3.78207)
 mass = 0.13
-can_sleep = false
 freeze_mode = 1
