@@ -19,5 +19,13 @@ offset_right = 644.0
 offset_bottom = 292.0
 text = "Start client"
 
+[node name="btnStartSingleplayer" type="Button" parent="."]
+offset_left = 476.0
+offset_top = 305.0
+offset_right = 642.0
+offset_bottom = 355.0
+text = "Start singleplayer"
+
 [connection signal="pressed" from="btnStartServer" to="." method="_on_btn_start_server_pressed"]
 [connection signal="pressed" from="btnStartClient" to="." method="_on_btn_start_client_pressed"]
+[connection signal="pressed" from="btnStartSingleplayer" to="." method="_on_btn_start_singleplayer_pressed"]

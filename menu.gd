@@ -13,6 +13,8 @@ var Player = load("res://Player.tscn")
 var Character = load("res://character.tscn")
 var player_counter = 0
 
+func _enter_tree():
+	get_window().title = "MILSIM Launcher"
 
 
 func createWorld():
@@ -42,10 +44,10 @@ func startGame(my_peer_id):
 
 
 func hideButtons():
-	$btnStartClient.hide()
-	$btnStartServer.hide()
+	visible = false
 
 func _on_btn_start_client_pressed():
+	get_window().title = "MILSIM Client"
 	print("A client start was intitiated")
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(SERVER_IP, SERVER_PORT)
@@ -55,15 +57,17 @@ func _on_btn_start_client_pressed():
 
 
 func _on_btn_start_server_pressed():
+	get_window().title = "MILSIM Server"
 	print("A server start was intitiated")
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(SERVER_PORT, MAX_PLAYERS)
 	multiplayer.multiplayer_peer = peer
 	hideButtons()
 	var worldAndPlayer = startGame(multiplayer.get_unique_id())
-	spawn_character(worldAndPlayer[1], worldAndPlayer[0])
-	
-	
+	spawn_character(worldAndPlayer[1], worldAndPlayer[0])	
+
+
+
 func add_player(peer_id):
 	print("A player with the id " + str(peer_id) + " was added.")
 	var player = Player.instantiate()
@@ -80,3 +84,10 @@ func spawn_character(player, world):
 	world.add_child(character)
 	return character
 	
+
+
+func _on_btn_start_singleplayer_pressed():
+	var singleplayer = load("res://singleplayer.tscn")
+	var singleplayerScene = singleplayer.instantiate()
+	get_tree().get_root().add_child(singleplayerScene)
+	hideButtons()

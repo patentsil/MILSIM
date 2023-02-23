@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxccnta1p8xa3"]
+[gd_scene load_steps=10 format=3 uid="uid://bxccnta1p8xa3"]
 
 [ext_resource type="Texture2D" uid="uid://bdbvndoa3f8t3" path="res://assets/materials/raw/dirt_floor_1k/textures/dirt_floor_diff_1k.jpg" id="1_q1eem"]
 [ext_resource type="Texture2D" uid="uid://5sci0q4o2xg5" path="res://assets/materials/raw/dirt_floor_1k/textures/dirt_floor_rough_1k.jpg" id="2_npw1n"]
@@ -17,6 +17,12 @@ size = Vector3(300, 0.076, 300)
 points = PackedVector3Array(-150, -0.038, -150, -150, 0.038, -150, 150, -0.038, -150, -150, -0.038, 150, -150, 0.038, 150, 150, 0.038, -150, 150, -0.038, 150, 150, 0.038, 150)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iknrc"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_2k7wr"]
+size = Vector3(2, 1, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_2dvre"]
+points = PackedVector3Array(0, 0.5, 0.5, 1, -0.5, 0.5, 0, 0.5, -0.5, -1, -0.5, 0.5, 1, -0.5, -0.5, -1, -0.5, -0.5)
 
 [node name="World" type="Node3D"]
 
@@ -41,6 +47,18 @@ transform = Transform3D(0.28, 0, 0, 0, 0.28, 0, 0, 0, 0.28, 64.3616, -0.0357659,
 mesh = SubResource("BoxMesh_iknrc")
 skeleton = NodePath("")
 script = ExtResource("8_60twa")
+
+[node name="TestCollidingObject" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.43128)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestCollidingObject"]
+transform = Transform3D(1, 0, 0, 0, 0.403561, 0.914953, 0, -0.914953, 0.403561, 0, 0.893736, 0)
+mesh = SubResource("PrismMesh_2k7wr")
+skeleton = NodePath("../../MultiplayerSpawner")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestCollidingObject"]
+transform = Transform3D(1, 0, 0, 0, 0.403561, 0.914953, 0, -0.914953, 0.403561, 0, 0.893736, 0)
+shape = SubResource("ConvexPolygonShape3D_2dvre")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://character.tscn")

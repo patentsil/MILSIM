@@ -23,6 +23,9 @@ properties/0/sync = true
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
+properties/2/path = NodePath("Sprite3D/SubViewport/Label:text")
+properties/2/spawn = true
+properties/2/sync = true
 
 [node name="character" type="CharacterBody3D"]
 script = ExtResource("1_bs1x2")

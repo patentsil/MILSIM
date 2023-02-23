@@ -13,6 +13,7 @@ var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _enter_tree():
+	print("Setting authority to peer id " + str(multiplayer.get_unique_id()))
 	set_multiplayer_authority(str(multiplayer.get_unique_id()).to_int())
 
 func _physics_process(delta):
