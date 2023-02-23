@@ -1,9 +1,10 @@
 extends CharacterBody3D
+class_name Character
 
 @onready var camera = $Camera3D
 @onready var name_billboard = $Sprite3D/SubViewport/Label
 @onready var sprite3d = $Sprite3D
-
+@export var player: Player = null
 @export var SPEED = 5.0
 @export var JUMP_VELOCITY = 4.5
 var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 1000

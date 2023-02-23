@@ -42,6 +42,6 @@ mesh = SubResource("BoxMesh_iknrc")
 skeleton = NodePath("")
 script = ExtResource("8_60twa")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Spawn"]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://character.tscn")
-spawn_path = NodePath("../..")
+spawn_path = NodePath("..")

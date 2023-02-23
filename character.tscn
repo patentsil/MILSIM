@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dk2ygg3uc00np"]
+[gd_scene load_steps=8 format=3 uid="uid://dk2ygg3uc00np"]
 
 [ext_resource type="Script" path="res://CharacterScripts/character.gd" id="1_bs1x2"]
 
@@ -15,6 +15,14 @@ subpixel_positioning = 0
 [sub_resource type="LabelSettings" id="LabelSettings_i6cq3"]
 font = SubResource("SystemFont_lxnkj")
 font_size = 25
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q1ue6"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
 
 [node name="character" type="CharacterBody3D"]
 script = ExtResource("1_bs1x2")
@@ -57,3 +65,6 @@ grow_vertical = 2
 text = "Player name"
 label_settings = SubResource("LabelSettings_i6cq3")
 horizontal_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_q1ue6")
