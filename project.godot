@@ -49,6 +49,10 @@ move_jump={
 ]
 }
 
+[physics]
+
+common/physics_ticks_per_second=100
+
 [player]
 
 look_sensitivity=1.0
