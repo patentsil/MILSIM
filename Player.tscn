@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://3spvx6boma71"]
+[gd_scene load_steps=3 format=3 uid="uid://3spvx6boma71"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_urqqq"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_30o18"]
+properties/0/path = NodePath(".:Name")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:PeerId")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(".:character")
+properties/2/spawn = true
+properties/2/sync = true
+
 [node name="Player" type="Node"]
 script = ExtResource("1_urqqq")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_30o18")

@@ -6,7 +6,6 @@ var MAX_PLAYERS=3
 var Player = load("res://Player.tscn")
 var Character = load("res://character.tscn")
 var player_counter = 0
-var peer_id = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,26 +36,21 @@ func createWorld():
 	get_tree().get_root().add_child(world)
 	return world
 
-func characterCreatedBySpawner(character):
-	print("Character was created by a spawner.")
-	character.peer_id = peer_id
-	pass
-
 func get_world():
 	return get_tree().root.get_node("World")
 
 # This also means to join the game
-func startGame(my_peer_id):
+func startGame(my_peer_id, is_client):
 	var peerAuthenticating = func(id):
 		print("The peer with id " + str(id) + " is authenticating.")
-	peer_id = my_peer_id
 	multiplayer.connect("peer_authenticating", peerAuthenticating)
-	print("Starting a new game")
+	if is_client: 
+		print("Starting a new game on the client side.")
+	else:
+		print("Starting a new game on the server side.")
 	# var player = add_player(my_peer_id)
-	var mpSpawner = get_world().get_node("MultiplayerSpawner")
-	mpSpawner.connect("spawned", characterCreatedBySpawner)
-	print("Start game has finished running")
-	return get_world()
+	# var mpSpawner = get_world().get_node("MultiplayerSpawner")
+	# mpSpawner.connect("spawned", characterCreatedBySpawner)
 
 func _on_btn_start_client_pressed():
 	get_window().title = "MILSIM Client"
@@ -64,10 +58,9 @@ func _on_btn_start_client_pressed():
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(SERVER_IP, SERVER_PORT)
 	multiplayer.multiplayer_peer = peer
-	startGame(multiplayer.get_unique_id())
+	startGame(multiplayer.get_unique_id(), true)
 	# spawn_character(worldAndPlayer[1], worldAndPlayer[0])	
 	$Menu.hide()
-
 
 func _on_btn_start_server_pressed():
 	print("Start server pressed")
@@ -78,7 +71,7 @@ func _on_btn_start_server_pressed():
 	multiplayer.multiplayer_peer = peer
 	$Menu.hide()
 	print("Multiplayer unique id of server is " + str(multiplayer.get_unique_id()))
-	startGame(multiplayer.get_unique_id())
+	startGame(multiplayer.get_unique_id(), false)
 	
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(del_player)
@@ -92,7 +85,6 @@ func _on_btn_start_server_pressed():
 	if not OS.has_feature("dedicated_server"):
 		print("Spawning the local player")
 		add_player(1)
-	# spawn_character(worldAndPlayer[1], worldAndPlayer[0])
 
 
 func add_player(_peer_id):
@@ -105,7 +97,7 @@ func add_player(_peer_id):
 	return player
 	
 func spawn_character(player, world):
-	print("A character was spawned for " + str(player.Name))
+	print("A character was spawned for " + str(player.PeerId))
 	var character = Character.instantiate()
 	character.peer_id = player.PeerId
 	character.player = player

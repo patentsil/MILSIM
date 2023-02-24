@@ -1,16 +1,21 @@
 [gd_scene load_steps=4 format=3 uid="uid://tewr0o1447a4"]
 
-[ext_resource type="Script" path="res://objects/test_colliding_object.gd" id="1_ag7wm"]
-
 [sub_resource type="BoxMesh" id="BoxMesh_ryj3g"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_k7hqj"]
 points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_n54vt"]
+properties/0/path = NodePath(".:rotation")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/sync = true
+
 [node name="TestCollidingObject" type="RigidBody3D"]
 mass = 0.27
 can_sleep = false
-script = ExtResource("1_ag7wm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.893736, 0)
@@ -20,3 +25,6 @@ skeleton = NodePath("../../MultiplayerSpawner")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.893736, 0)
 shape = SubResource("ConvexPolygonShape3D_k7hqj")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_n54vt")

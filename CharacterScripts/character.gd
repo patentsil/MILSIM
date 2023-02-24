@@ -7,10 +7,9 @@ class_name Character
 @export var player: Player = null
 @export var SPEED = 5.0
 @export var JUMP_VELOCITY = 4.5
-@export var peer_id := 0 :
-	set(id):
-		peer_id = id
-		set_multiplayer_authority(id)
+var wasPeerIdSet = false
+var peer_id := 0
+
 var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 1000
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -41,15 +40,30 @@ func _physics_process(delta):
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		
 func _init():
-	if not is_multiplayer_authority(): return
-	print("Character " + name + " initializing")
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	pass
+	
 	
 func _ready():
+	if multiplayer.is_server():
+		print("This is running on a server")
+	else:
+		print("This is running on a client")
+	while peer_id < 2:
+		await get_tree().create_timer(1).timeout
+		if not multiplayer.is_server():
+			print("The current peer_id on client is " + str(peer_id))
+	#if multiplayer.is_server():
+	print("Character " + str(peer_id) + " ready")
+	print("But the actual peer_id is " + str(multiplayer.get_unique_id()))
+	set_multiplayer_authority(peer_id)
+	
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if name_billboard:
 		name_billboard.text = name
 	if not sprite3d:
 		print("Sprite3d is not yet set up")
+	if peer_id == multiplayer.get_unique_id():
+		$Camera3D.current = true
 
 func _input(event):
 	if not is_multiplayer_authority(): return
