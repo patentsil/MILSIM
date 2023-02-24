@@ -41,10 +41,7 @@ func get_world():
 
 # This also means to join the game
 func startGame(my_peer_id, is_client):
-	var peerAuthenticating = func(id):
-		print("The peer with id " + str(id) + " is authenticating.")
-	multiplayer.connect("peer_authenticating", peerAuthenticating)
-	if is_client: 
+	if is_client:
 		print("Starting a new game on the client side.")
 	else:
 		print("Starting a new game on the server side.")
@@ -85,7 +82,6 @@ func _on_btn_start_server_pressed():
 	if not OS.has_feature("dedicated_server"):
 		print("Spawning the local player")
 		add_player(1)
-
 
 func add_player(_peer_id):
 	print("A player with the id " + str(_peer_id) + " was added.")

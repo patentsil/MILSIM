@@ -48,22 +48,21 @@ func _ready():
 		print("This is running on a server")
 	else:
 		print("This is running on a client")
-	while peer_id < 2:
-		await get_tree().create_timer(1).timeout
-		if not multiplayer.is_server():
-			print("The current peer_id on client is " + str(peer_id))
 	#if multiplayer.is_server():
 	print("Character " + str(peer_id) + " ready")
 	print("But the actual peer_id is " + str(multiplayer.get_unique_id()))
-	set_multiplayer_authority(peer_id)
+	set_multiplayer_authority(peer_id, true)
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if name_billboard:
 		name_billboard.text = name
 	if not sprite3d:
 		print("Sprite3d is not yet set up")
-	if peer_id == multiplayer.get_unique_id():
+	if str(peer_id) == str(multiplayer.get_unique_id()):
+		print("Found the correct camera for " + str(multiplayer.get_unique_id()))
 		$Camera3D.current = true
+	else:
+		print("Camera was for " + str(peer_id) + " and not for " + str(multiplayer.get_unique_id()))
 
 func _input(event):
 	if not is_multiplayer_authority(): return
