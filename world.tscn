@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bxccnta1p8xa3"]
+[gd_scene load_steps=11 format=3 uid="uid://bxccnta1p8xa3"]
 
 [ext_resource type="Texture2D" uid="uid://bdbvndoa3f8t3" path="res://assets/materials/raw/dirt_floor_1k/textures/dirt_floor_diff_1k.jpg" id="1_q1eem"]
+[ext_resource type="Script" path="res://world.gd" id="1_xarnj"]
 [ext_resource type="Texture2D" uid="uid://5sci0q4o2xg5" path="res://assets/materials/raw/dirt_floor_1k/textures/dirt_floor_rough_1k.jpg" id="2_npw1n"]
 [ext_resource type="PackedScene" uid="uid://bncn03noltels" path="res://objects/test_colliding_object.tscn" id="4_0ihgw"]
 [ext_resource type="PackedScene" uid="uid://tewr0o1447a4" path="res://objects/test_colliding_object2.tscn" id="5_afnsq"]
@@ -21,6 +22,7 @@ points = PackedVector3Array(-150, -0.038, -150, -150, 0.038, -150, 150, -0.038, 
 [sub_resource type="BoxMesh" id="BoxMesh_iknrc"]
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_xarnj")
 
 [node name="sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.600448, 0.799664, 0, -0.799664, -0.600448, 0, 0, 0)
@@ -44,10 +46,6 @@ mesh = SubResource("BoxMesh_iknrc")
 skeleton = NodePath("")
 script = ExtResource("8_60twa")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Spawn"]
-_spawnable_scenes = PackedStringArray("res://character.tscn")
-spawn_path = NodePath("../..")
-
 [node name="TestCollidingObject" parent="." instance=ExtResource("4_0ihgw")]
 transform = Transform3D(0.975523, -0.219897, 4.44089e-16, 0.203776, 0.904004, 0.375836, -0.0826454, -0.366637, 0.926686, 0, 0.337691, 0)
 mass = 0.03
@@ -58,3 +56,35 @@ freeze_mode = 1
 transform = Transform3D(0.875481, -0.483249, -0.00203487, 0.483248, 0.875483, -0.000655978, 0.00209849, -0.000409053, 0.999998, 0.000747204, 0.00308943, -3.78207)
 mass = 0.13
 freeze_mode = 1
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://character.tscn")
+spawn_path = NodePath("..")
+
+[node name="Menu" type="Node2D" parent="."]
+
+[node name="btnStartServer" type="Button" parent="Menu"]
+offset_left = 463.0
+offset_top = 122.0
+offset_right = 659.0
+offset_bottom = 151.0
+text = "Start server"
+
+[node name="btnStartClient" type="Button" parent="Menu"]
+offset_left = 464.0
+offset_top = 168.0
+offset_right = 660.0
+offset_bottom = 199.0
+text = "Start client
+"
+
+[node name="btnStartSingleplayer" type="Button" parent="Menu"]
+offset_left = 461.0
+offset_top = 217.0
+offset_right = 657.0
+offset_bottom = 248.0
+text = "Start singleplayer"
+
+[connection signal="pressed" from="Menu/btnStartServer" to="." method="_on_btn_start_server_pressed"]
+[connection signal="pressed" from="Menu/btnStartClient" to="." method="_on_btn_start_client_pressed"]
+[connection signal="pressed" from="Menu/btnStartSingleplayer" to="." method="_on_btn_start_singleplayer_pressed"]

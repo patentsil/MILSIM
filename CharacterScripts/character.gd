@@ -7,16 +7,17 @@ class_name Character
 @export var player: Player = null
 @export var SPEED = 5.0
 @export var JUMP_VELOCITY = 4.5
+@export var peer_id := 0 :
+	set(id):
+		peer_id = id
+		set_multiplayer_authority(id)
 var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 1000
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-func _enter_tree():
-	print("Setting authority to peer id " + str(multiplayer.get_unique_id()))
-	set_multiplayer_authority(str(multiplayer.get_unique_id()).to_int())
-
 func _physics_process(delta):
+	if not is_multiplayer_authority(): return
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
@@ -40,6 +41,7 @@ func _physics_process(delta):
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		
 func _init():
+	if not is_multiplayer_authority(): return
 	print("Character " + name + " initializing")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
@@ -50,6 +52,7 @@ func _ready():
 		print("Sprite3d is not yet set up")
 
 func _input(event):
+	if not is_multiplayer_authority(): return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * look_sensitivity)
 		camera.rotate_x(-event.relative.y * look_sensitivity)
