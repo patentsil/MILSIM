@@ -18,7 +18,8 @@ func getCurrentPlayer():
 		if node.PeerId == multiplayer.get_unique_id():
 			return node
 		elif not multiplayer.is_server():
-			print("Player " + player.Name + " had " + str(player.PeerId))
+			pass
+			#print("Player " + player.Name + " had " + str(player.PeerId))
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -18,9 +18,10 @@ func _exit_tree():
 
 
 func del_player(id: int):
-	# if not $.has_node(str(id)):
-	#	return
-	# $Players.get_node(str(id)).queue_free()
+	var char = get_character_with_peer_id(id)
+	var player = get_player_with_peer_id(id)
+	player.queue_free()
+	char.queue_free()
 	pass
 
 func _enter_tree():
@@ -93,9 +94,14 @@ func add_player(_peer_id):
 	spawn_character(player, get_world())
 	return player
 
-func get_character_with_peer_id():
+func get_player_with_peer_id(_peer_id):
+	for player in $Players.get_children():
+		if player.PeerId == _peer_id:
+			return player
+
+func get_character_with_peer_id(_peer_id):
 	for child in get_children():
-		if child is Character and child.peer_id == multiplayer.get_unique_id():
+		if child is Character and child.peer_id == _peer_id:
 			return child
 
 @rpc("any_peer")
@@ -106,7 +112,7 @@ func replicatePlayer(playerName, playerPeerId):
 	player.PeerId = playerPeerId
 	get_world().get_node("Players").add_child(player, true)
 	await get_tree().create_timer(0.3).timeout
-	var char = get_character_with_peer_id()
+	var char = get_character_with_peer_id(playerPeerId)
 	if char:
 		char.player = player
 		player.character = char
