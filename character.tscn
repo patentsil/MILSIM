@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://dk2ygg3uc00np"]
+[gd_scene load_steps=9 format=3 uid="uid://dk2ygg3uc00np"]
 
 [ext_resource type="Script" path="res://CharacterScripts/character.gd" id="1_bs1x2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qj3xx"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_g0dfk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c67bv"]
+size = Vector3(0.1, 0.1, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_mwh5o"]
 viewport_path = NodePath("Sprite3D/SubViewport")
@@ -29,6 +32,9 @@ properties/2/sync = true
 properties/3/path = NodePath(".:peer_id")
 properties/3/spawn = false
 properties/3/sync = true
+properties/4/path = NodePath("Camera3D:rotation")
+properties/4/spawn = true
+properties/4/sync = true
 
 [node name="character" type="CharacterBody3D"]
 script = ExtResource("1_bs1x2")
@@ -43,6 +49,11 @@ mesh = SubResource("CapsuleMesh_g0dfk")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70475, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.680167)
+visible = false
+mesh = SubResource("BoxMesh_c67bv")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34161, 0)

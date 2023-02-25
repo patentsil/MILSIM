@@ -45,3 +45,5 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 12
 placeholder_text = "Type here ..."
+
+[connection signal="text_submitted" from="TextEdit2" to="." method="_on_text_edit_2_text_submitted"]

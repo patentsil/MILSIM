@@ -45,9 +45,6 @@ func startGame(my_peer_id, is_client):
 		print("Starting a new game on the client side.")
 	else:
 		print("Starting a new game on the server side.")
-	# var player = add_player(my_peer_id)
-	# var mpSpawner = get_world().get_node("MultiplayerSpawner")
-	# mpSpawner.connect("spawned", characterCreatedBySpawner)
 
 func _on_btn_start_client_pressed():
 	get_window().title = "MILSIM Client"
@@ -89,9 +86,19 @@ func add_player(_peer_id):
 	player.Name = "Player " + str(player_counter)
 	player.PeerId = _peer_id
 	player_counter += 1
-	get_world().add_child(player, true)
+	get_world().get_node("Players").add_child(player, true)
+	replicatePlayer.rpc(player.Name, player.PeerId)
 	spawn_character(player, get_world())
 	return player
+
+@rpc("any_peer")
+func replicatePlayer(playerName, playerPeerId):
+	print("A player is being replicated.")
+	var player = Player.instantiate()
+	player.Name = playerName
+	player.PeerId = playerPeerId
+	print("Player " + player.Name + " was replicated")
+	get_world().get_node("Players").add_child(player, true)
 	
 func spawn_character(player, world):
 	print("A character was spawned for " + str(player.PeerId))

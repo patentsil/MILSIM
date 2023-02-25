@@ -59,7 +59,7 @@ transform = Transform3D(0.875481, -0.483249, -0.00203487, 0.483248, 0.875483, -0
 mass = 0.13
 freeze_mode = 1
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="CharacterSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://character.tscn")
 spawn_path = NodePath("..")
 
@@ -104,6 +104,12 @@ text = "Start singleplayer"
 
 [node name="Chat" parent="." instance=ExtResource("8_je4sl")]
 visible = false
+
+[node name="Players" type="Node" parent="."]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Player.tscn")
+spawn_path = NodePath("../Players")
 
 [connection signal="ChatClosed" from="ActionBar" to="Chat" method="_on_action_bar_chat_closed"]
 [connection signal="ChatOpened" from="ActionBar" to="Chat" method="_on_action_bar_chat_opened"]
