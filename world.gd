@@ -124,6 +124,7 @@ func replicatePlayer(playerName, playerPeerId):
 func spawn_character(player, world):
 	print("A character was spawned for " + str(player.PeerId))
 	var character = Character.instantiate()
+	character.name = player.name
 	character.peer_id = player.PeerId
 	character.player = player
 	player.character = character

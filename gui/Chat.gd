@@ -21,9 +21,6 @@ func getCurrentPlayer():
 			pass
 			#print("Player " + player.Name + " had " + str(player.PeerId))
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 func append_text(text):
 	$TextEdit.text += text + "\n"
