@@ -9,11 +9,14 @@ class_name Character
 @export var JUMP_VELOCITY = 4.5
 var wasPeerIdSet = false
 var peer_id := 0
-
+var input_dir = null
 var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 1000
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+func _process(delta):
+	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
 
 func _physics_process(delta):
 	if not str(peer_id) == str(multiplayer.get_unique_id()): return
@@ -23,8 +26,10 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("move_jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction = null
+	if input_dir:
+		direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		input_dir = Vector3()
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
@@ -83,9 +88,13 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if name_billboard:
 		name_billboard.text = name
-	await get_tree().create_timer(0.05).timeout
-	if not str(peer_id) == str(multiplayer.get_unique_id()):
-		$Camera3D/PokeStick.visible = true
+	var makePokeStickVisibleFunc = func():
+		await get_tree().create_timer(0.05).timeout
+		if not str(peer_id) == str(multiplayer.get_unique_id()):
+			$Camera3D/PokeStick.visible = true
+	
+	makePokeStickVisibleFunc.call_deferred()
+	
 
 func attachTouchedObjects():
 	# This should attach the objects that are touching the PokeStick to it.

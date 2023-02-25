@@ -6,7 +6,6 @@ var MAX_PLAYERS=3
 var Player = load("res://Player.tscn")
 var Character = load("res://character.tscn")
 var player_counter = 0
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -45,6 +44,7 @@ func startGame(my_peer_id, is_client):
 		print("Starting a new game on the client side.")
 	else:
 		print("Starting a new game on the server side.")
+
 
 func _on_btn_start_client_pressed():
 	get_window().title = "MILSIM Client"

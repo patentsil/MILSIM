@@ -4,6 +4,9 @@ signal ChatOpened
 signal ChatClosed
 var unreadCount = 0
 
+func getCurrentCharacter():
+	return getCurrentPlayer().character
+
 func getCurrentPlayer():
 	var world = get_tree().root.get_node("World")
 	for node in world.get_node("Players").get_children():
@@ -42,12 +45,18 @@ func send_global_message(message) -> void:
 		transfer_message_to_server.rpc(message)
 
 func _on_action_bar_chat_opened():
-	visible = true
+	visibleStateChanged(true)
 
 
 func _on_action_bar_chat_closed():
-	visible = false
+	visibleStateChanged(false)
 
+func visibleStateChanged(isVisible):
+	visible = isVisible
+	var char = getCurrentCharacter()
+	char.set_process(not isVisible)
+	char.set_process_input(not isVisible)
+	char.set_process_unhandled_key_input(not isVisible)
 
 func _on_text_edit_2_text_submitted(new_text):
 	if new_text.strip_edges() == "":
@@ -63,6 +72,16 @@ func _input(event):
 			$TextEdit2.grab_focus()
 			unreadCount = 0
 			get_tree().root.get_node("World/ActionBar").emit_signal("AmountOfMessagesChanged", 0)
+			visibleStateChanged(true)
 			return
-	elif visible:
-		return
+
+func _unhandled_input(event):
+	if visible and $TextEdit2.has_focus():
+		print("Accepted input event")
+		$TextEdit2.accept_event()
+
+func _unhandled_key_input(event):
+	if visible and $TextEdit2.has_focus():
+		print("Accepted input event")
+		$TextEdit2.accept_event()
+
