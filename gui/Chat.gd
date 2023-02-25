@@ -67,12 +67,12 @@ func _on_text_edit_2_text_submitted(new_text):
 func _input(event):
 	if event.is_action_pressed("toggle_chat"):
 		visible = not visible
+		visibleStateChanged(visible)
 		if visible:
 			await get_tree().create_timer(0.05).timeout
 			$TextEdit2.grab_focus()
 			unreadCount = 0
 			get_tree().root.get_node("World/ActionBar").emit_signal("AmountOfMessagesChanged", 0)
-			visibleStateChanged(true)
 			return
 
 func _unhandled_input(event):

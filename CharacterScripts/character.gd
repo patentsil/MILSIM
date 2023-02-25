@@ -10,12 +10,14 @@ class_name Character
 var wasPeerIdSet = false
 var peer_id := 0
 var input_dir = null
+var is_jump_pressed = false
 var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 1000
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _process(delta):
+	is_jump_pressed = Input.is_action_just_pressed("move_jump")
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
 
 func _physics_process(delta):
@@ -23,8 +25,9 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-	if Input.is_action_just_pressed("move_jump") and is_on_floor():
+	if is_jump_pressed and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		is_jump_pressed = false
 
 	var direction = null
 	if input_dir:
