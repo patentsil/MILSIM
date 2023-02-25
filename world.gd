@@ -50,10 +50,12 @@ func _on_btn_start_client_pressed():
 	get_window().title = "MILSIM Client"
 	print("A client start was intitiated")
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_client(SERVER_IP, SERVER_PORT)
+	var desiredIP = SERVER_IP
+	if $Menu/VBoxContainer/leAddress.text != "":
+		desiredIP = $Menu/VBoxContainer/leAddress.text
+	peer.create_client(desiredIP, SERVER_PORT)
 	multiplayer.multiplayer_peer = peer
 	startGame(multiplayer.get_unique_id(), true)
-	# spawn_character(worldAndPlayer[1], worldAndPlayer[0])	
 	$Menu.hide()
 
 func _on_btn_start_server_pressed():

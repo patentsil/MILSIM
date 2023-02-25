@@ -50,7 +50,7 @@ mesh = SubResource("CapsuleMesh_g0dfk")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70475, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+[node name="PokeStick" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.680167)
 visible = false
 mesh = SubResource("BoxMesh_c67bv")

@@ -54,17 +54,16 @@ func set_camera(peer_id):
 		$Camera3D.current = true
 		set_multiplayer_authority(peer_id, true)
 	else:
-		$Camera3D/MeshInstance3D.visible = true
 		print("Camera was for " + str(peer_id) + " and not for " + str(multiplayer.get_unique_id()))	
 
 @rpc("any_peer")
 func get_peer_id():
 	if multiplayer.is_server():
 		print("Server received request from client to set the peer_id")
-	set_peer_id.rpc_id(peer_id, peer_id)
-	set_multiplayer_authority(peer_id, true)
-	# $MultiplayerSynchronizer.set_multiplayer_authority(peer_id, true)
-	set_camera.rpc_id(peer_id, peer_id)
+		set_peer_id.rpc_id(peer_id, peer_id)
+		set_multiplayer_authority(peer_id, true)
+		# $MultiplayerSynchronizer.set_multiplayer_authority(peer_id, true)
+		set_camera.rpc_id(peer_id, peer_id)
 
 func _ready():
 	if multiplayer.is_server():
@@ -76,6 +75,7 @@ func _ready():
 		print("This is running on a client")
 		# Should ask for a peer_id
 		get_peer_id.rpc()
+		
 	#if multiplayer.is_server():
 	#print("Character " + str(peer_id) + " ready")
 	#print("But the actual peer_id is " + str(multiplayer.get_unique_id()))
@@ -83,6 +83,9 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if name_billboard:
 		name_billboard.text = name
+	await get_tree().create_timer(0.05).timeout
+	if not str(peer_id) == str(multiplayer.get_unique_id()):
+		$Camera3D/PokeStick.visible = true
 
 func _input(event):
 	if not str(peer_id) == str(multiplayer.get_unique_id()): return

@@ -80,10 +80,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -72.0
-offset_top = -50.5
-offset_right = 72.0
-offset_bottom = 50.5
+offset_left = -153.0
+offset_top = -68.0
+offset_right = 153.0
+offset_bottom = 68.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -101,6 +101,10 @@ text = "Start client
 [node name="btnStartSingleplayer" type="Button" parent="Menu/VBoxContainer"]
 layout_mode = 2
 text = "Start singleplayer"
+
+[node name="leAddress" type="LineEdit" parent="Menu/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "IP address"
 
 [node name="Chat" parent="." instance=ExtResource("8_je4sl")]
 visible = false
