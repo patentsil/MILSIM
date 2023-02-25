@@ -16,7 +16,7 @@ var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _physics_process(delta):
-	if not is_multiplayer_authority(): return
+	if not str(peer_id) == str(multiplayer.get_unique_id()): return
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
@@ -42,30 +42,47 @@ func _physics_process(delta):
 func _init():
 	pass
 	
-	
-func _ready():
-	if multiplayer.is_server():
-		print("This is running on a server")
-	else:
-		print("This is running on a client")
-	#if multiplayer.is_server():
-	print("Character " + str(peer_id) + " ready")
-	print("But the actual peer_id is " + str(multiplayer.get_unique_id()))
-	set_multiplayer_authority(peer_id, true)
-	
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	if name_billboard:
-		name_billboard.text = name
-	if not sprite3d:
-		print("Sprite3d is not yet set up")
+@rpc("any_peer")
+func set_peer_id(value):
+	peer_id = value
+	print("Peer id was set to " + str(peer_id))
+
+@rpc("any_peer")
+func set_camera(peer_id):
 	if str(peer_id) == str(multiplayer.get_unique_id()):
 		print("Found the correct camera for " + str(multiplayer.get_unique_id()))
 		$Camera3D.current = true
 	else:
-		print("Camera was for " + str(peer_id) + " and not for " + str(multiplayer.get_unique_id()))
+		print("Camera was for " + str(peer_id) + " and not for " + str(multiplayer.get_unique_id()))	
+
+@rpc("any_peer")
+func get_peer_id():
+	if multiplayer.is_server():
+		print("Server received request from client to set the peer_id")
+	set_peer_id.rpc_id(peer_id, peer_id)
+	set_multiplayer_authority(peer_id, true)
+	set_camera.rpc_id(peer_id, peer_id)
+
+func _ready():
+	if multiplayer.is_server():
+		pass
+		#print("This is running on a server")
+		#print("Server is calling rpc to set peer_id to " + str(peer_id))
+		#set_peer_id.rpc_id(peer_id, peer_id)
+	else:
+		print("This is running on a client")
+		# Should ask for a peer_id
+		get_peer_id.rpc()
+	#if multiplayer.is_server():
+	#print("Character " + str(peer_id) + " ready")
+	#print("But the actual peer_id is " + str(multiplayer.get_unique_id()))
+
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if name_billboard:
+		name_billboard.text = name
 
 func _input(event):
-	if not is_multiplayer_authority(): return
+	if not str(peer_id) == str(multiplayer.get_unique_id()): return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * look_sensitivity)
 		camera.rotate_x(-event.relative.y * look_sensitivity)

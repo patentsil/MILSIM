@@ -89,6 +89,7 @@ func add_player(_peer_id):
 	player.Name = "Player " + str(player_counter)
 	player.PeerId = _peer_id
 	player_counter += 1
+	get_world().add_child(player, true)
 	spawn_character(player, get_world())
 	return player
 	
