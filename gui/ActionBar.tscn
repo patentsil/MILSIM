@@ -9,11 +9,18 @@
 script = ExtResource("1_3i4uq")
 
 [node name="ChatDrop" type="TextureButton" parent="."]
-offset_left = 7.0
-offset_top = 7.0
-offset_right = 71.0
-offset_bottom = 71.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 67.0
+offset_bottom = 67.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(0.4, 0.4)
+size_flags_horizontal = 4
+size_flags_vertical = 6
 toggle_mode = true
 texture_normal = ExtResource("1_0j7uy")
 texture_hover = ExtResource("2_17im3")
@@ -35,6 +42,21 @@ scale = Vector2(0.989512, 0.966379)
 mouse_filter = 1
 texture_normal = ExtResource("2_sbdiy")
 
+[node name="lblAmountOfMessages" type="Label" parent="ChatDrop"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.078
+anchor_top = 0.742
+anchor_right = 0.078
+anchor_bottom = 0.742
+offset_left = 0.00799894
+offset_top = -2.488
+offset_right = 51.008
+offset_bottom = 20.512
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[connection signal="AmountOfMessagesChanged" from="." to="." method="_on_amount_of_messages_changed"]
 [connection signal="ChatClosed" from="." to="." method="_on_chat_closed"]
 [connection signal="ChatOpened" from="." to="." method="_on_chat_opened"]
 [connection signal="toggled" from="ChatDrop" to="." method="_on_chat_drop_toggled"]

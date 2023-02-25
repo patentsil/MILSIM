@@ -48,13 +48,13 @@ func set_peer_id(value):
 	print("Peer id was set to " + str(peer_id))
 
 @rpc("any_peer")
-func set_camera(peer_id):
-	if str(peer_id) == str(multiplayer.get_unique_id()):
+func set_camera(_peer_id):
+	if str(_peer_id) == str(multiplayer.get_unique_id()):
 		print("Found the correct camera for " + str(multiplayer.get_unique_id()))
 		$Camera3D.current = true
-		set_multiplayer_authority(peer_id, true)
+		set_multiplayer_authority(_peer_id, true)
 	else:
-		print("Camera was for " + str(peer_id) + " and not for " + str(multiplayer.get_unique_id()))	
+		print("Camera was for " + str(_peer_id) + " and not for " + str(multiplayer.get_unique_id()))	
 
 @rpc("any_peer")
 func get_peer_id():

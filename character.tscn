@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dk2ygg3uc00np"]
+[gd_scene load_steps=10 format=3 uid="uid://dk2ygg3uc00np"]
 
 [ext_resource type="Script" path="res://CharacterScripts/character.gd" id="1_bs1x2"]
 
@@ -8,6 +8,9 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_c67bv"]
 size = Vector3(0.1, 0.1, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_2147e"]
+points = PackedVector3Array(0.05, 0.05, 0.5, 0.05, -0.05, 0.5, 0.05, 0.05, -0.5, -0.05, 0.05, 0.5, -0.05, -0.05, 0.5, 0.05, -0.05, -0.5, -0.05, 0.05, -0.5, -0.05, -0.05, -0.5)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_mwh5o"]
 viewport_path = NodePath("Sprite3D/SubViewport")
@@ -50,10 +53,19 @@ mesh = SubResource("CapsuleMesh_g0dfk")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70475, 0)
 
-[node name="PokeStick" type="MeshInstance3D" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.680167)
+[node name="PokeStick" type="StaticBody3D" parent="Camera3D"]
 visible = false
+collision_layer = 2
+collision_mask = 2
+
+[node name="Mesh" type="MeshInstance3D" parent="Camera3D/PokeStick"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.680167)
 mesh = SubResource("BoxMesh_c67bv")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/PokeStick"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.680167)
+shape = SubResource("ConvexPolygonShape3D_2147e")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34161, 0)

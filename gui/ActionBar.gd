@@ -1,6 +1,7 @@
 extends Node2D
 signal ChatOpened
 signal ChatClosed
+signal AmountOfMessagesChanged(amount)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,3 +24,7 @@ func _on_chat_drop_toggled(button_pressed):
 		ChatOpened.emit()
 	else:
 		ChatClosed.emit()
+
+
+func _on_amount_of_messages_changed(amount):
+	$ChatDrop/lblAmountOfMessages.text = str(amount)

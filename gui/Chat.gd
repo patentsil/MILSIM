@@ -2,6 +2,7 @@ extends Control
 
 signal ChatOpened
 signal ChatClosed
+var unreadCount = 0
 
 func getCurrentPlayer():
 	var world = get_tree().root.get_node("World")
@@ -28,6 +29,9 @@ func transfer_message_to_server(message):
 	
 @rpc("any_peer")
 func receiveMessage(message):
+	if not visible:
+		unreadCount += 1
+	get_tree().root.get_node("World/ActionBar").emit_signal("AmountOfMessagesChanged", unreadCount)
 	append_text(message)
 
 func send_global_message(message) -> void:
@@ -46,6 +50,8 @@ func _on_action_bar_chat_closed():
 
 
 func _on_text_edit_2_text_submitted(new_text):
+	if new_text.strip_edges() == "":
+		return
 	send_global_message(getCurrentPlayer().Name + ": " + new_text)
 	$TextEdit2.text = ""
 	
@@ -55,4 +61,8 @@ func _input(event):
 		if visible:
 			await get_tree().create_timer(0.05).timeout
 			$TextEdit2.grab_focus()
+			unreadCount = 0
+			get_tree().root.get_node("World/ActionBar").emit_signal("AmountOfMessagesChanged", 0)
 			return
+	elif visible:
+		return
