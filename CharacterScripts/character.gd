@@ -87,9 +87,16 @@ func _ready():
 	if not str(peer_id) == str(multiplayer.get_unique_id()):
 		$Camera3D/PokeStick.visible = true
 
+func attachTouchedObjects():
+	# This should attach the objects that are touching the PokeStick to it.
+	pass
+
 func _input(event):
 	if not str(peer_id) == str(multiplayer.get_unique_id()): return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * look_sensitivity)
 		camera.rotate_x(-event.relative.y * look_sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+	elif event is InputEventMouseButton and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		pass
+		# $Camera3D/PokeStick
