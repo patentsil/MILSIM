@@ -5,7 +5,9 @@ signal ChatClosed
 var unreadCount = 0
 
 func getCurrentCharacter():
-	return getCurrentPlayer().character
+	for child in get_tree().root.get_node("World").get_children():
+		if child is Character and child.peer_id == multiplayer.get_unique_id():
+			return child
 
 func getCurrentPlayer():
 	var world = get_tree().root.get_node("World")
@@ -77,11 +79,9 @@ func _input(event):
 
 func _unhandled_input(event):
 	if visible and $TextEdit2.has_focus():
-		print("Accepted input event")
 		$TextEdit2.accept_event()
 
 func _unhandled_key_input(event):
 	if visible and $TextEdit2.has_focus():
-		print("Accepted input event")
 		$TextEdit2.accept_event()
 

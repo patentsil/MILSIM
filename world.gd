@@ -93,14 +93,27 @@ func add_player(_peer_id):
 	spawn_character(player, get_world())
 	return player
 
+func get_character_with_peer_id():
+	for child in get_children():
+		if child is Character and child.peer_id == multiplayer.get_unique_id():
+			return child
+
 @rpc("any_peer")
 func replicatePlayer(playerName, playerPeerId):
 	print("A player is being replicated.")
 	var player = Player.instantiate()
 	player.Name = playerName
 	player.PeerId = playerPeerId
-	print("Player " + player.Name + " was replicated")
 	get_world().get_node("Players").add_child(player, true)
+	await get_tree().create_timer(0.3).timeout
+	var char = get_character_with_peer_id()
+	if char:
+		char.player = player
+		player.character = char
+	else:
+		print("No character was available for replicatePlayer")
+	print("Player " + player.Name + " was replicated")
+	
 	
 func spawn_character(player, world):
 	print("A character was spawned for " + str(player.PeerId))
