@@ -52,6 +52,7 @@ func set_camera(peer_id):
 	if str(peer_id) == str(multiplayer.get_unique_id()):
 		print("Found the correct camera for " + str(multiplayer.get_unique_id()))
 		$Camera3D.current = true
+		set_multiplayer_authority(peer_id, true)
 	else:
 		print("Camera was for " + str(peer_id) + " and not for " + str(multiplayer.get_unique_id()))	
 
@@ -61,6 +62,7 @@ func get_peer_id():
 		print("Server received request from client to set the peer_id")
 	set_peer_id.rpc_id(peer_id, peer_id)
 	set_multiplayer_authority(peer_id, true)
+	$MultiplayerSynchronizer.set_multiplayer_authority(peer_id, true)
 	set_camera.rpc_id(peer_id, peer_id)
 
 func _ready():
