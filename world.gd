@@ -56,7 +56,7 @@ func _on_btn_start_client_pressed():
 	peer.create_client(desiredIP, SERVER_PORT)
 	var host = peer.host
 	host.connect("EVENT_CONNECT", func():
-		$Menu.visible = false
+		$Menu.hide()
 		)
 	client_peer = peer
 	multiplayer.multiplayer_peer = peer

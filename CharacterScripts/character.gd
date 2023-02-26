@@ -17,8 +17,12 @@ var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _process(delta):
+	if not str(peer_id) == str(multiplayer.get_unique_id()): return
 	is_jump_pressed = Input.is_action_just_pressed("move_jump")
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
+	if Input.is_action_just_pressed("toggle_flashlight"):
+		$Camera3D/Flashlight.visible = not $Camera3D/Flashlight.visible
+		
 
 func _physics_process(delta):
 	if not str(peer_id) == str(multiplayer.get_unique_id()): return
@@ -111,4 +115,3 @@ func _input(event):
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 	elif event is InputEventMouseButton and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		pass
-		# $Camera3D/PokeStick

@@ -39,6 +39,9 @@ properties/3/sync = true
 properties/4/path = NodePath("Camera3D:rotation")
 properties/4/spawn = true
 properties/4/sync = true
+properties/5/path = NodePath("Camera3D/Flashlight:visible")
+properties/5/spawn = true
+properties/5/sync = true
 
 [node name="character" type="CharacterBody3D"]
 script = ExtResource("1_bs1x2")
@@ -67,6 +70,12 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/PokeStick"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.680167)
 shape = SubResource("ConvexPolygonShape3D_2147e")
+
+[node name="Flashlight" type="SpotLight3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.00771)
+light_energy = 2.401
+spot_range = 25.1554
+spot_angle = 47.8125
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34161, 0)
