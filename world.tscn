@@ -293,13 +293,12 @@ offset_bottom = 27.0
 script = ExtResource("11_8svh2")
 
 [node name="LineEdit" type="LineEdit" parent="fpscounter"]
-visible = false
 layout_mode = 0
-offset_left = 390.0
-offset_top = 210.0
-offset_right = 696.0
-offset_bottom = 241.0
-placeholder_text = "Enter desired render FPS"
+offset_left = 77.0
+offset_top = -2.0
+offset_right = 164.0
+offset_bottom = 29.0
+placeholder_text = "Enter FPS"
 
 [connection signal="ChatClosed" from="ActionBar" to="Chat" method="_on_action_bar_chat_closed"]
 [connection signal="ChatOpened" from="ActionBar" to="Chat" method="_on_action_bar_chat_opened"]

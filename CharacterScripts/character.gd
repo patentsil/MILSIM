@@ -5,8 +5,8 @@ class_name Character
 @onready var name_billboard = $Sprite3D/SubViewport/Label
 @onready var sprite3d = $Sprite3D
 @export var player: Player = null
-@export var SPEED = 5.0
-@export var SPRINT_SPEED = 15.0
+@export var SPEED = 7.5
+@export var SPRINT_SPEED = 12.0
 @export var JUMP_VELOCITY = 4.5
 var wasPeerIdSet = false
 var peer_id := 0
@@ -42,7 +42,7 @@ func _physics_process(delta):
 		actual_speed = SPRINT_SPEED
 	if input_dir:
 		direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-		input_dir = Vector3()
+#		input_dir = Vector3()
 	if direction:
 		velocity.x = direction.x * actual_speed
 		velocity.z = direction.z * actual_speed

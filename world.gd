@@ -70,13 +70,15 @@ func _on_btn_start_client_pressed():
 	for element in toShow:
 		element.show()
 	$Menu/VBoxContainer/btnBack.connect("pressed", func():
+		await get_tree().create_timer(1).timeout
 		for element in toHide:
 			element.show()
 		for element in toShow:
 			element.hide()
-		peer.close())
+		peer.close()
+		)
 	while peer.get_connection_status() != ENetMultiplayerPeer.CONNECTION_CONNECTED:
-		await get_tree().create_timer(0.3).timeout
+		await get_tree().create_timer(0.05).timeout
 	$Menu.hide()
 	
 
@@ -141,8 +143,7 @@ func replicatePlayer(playerName, playerPeerId):
 	else:
 		print("No character was available for replicatePlayer")
 	print("Player " + player.Name + " was replicated")
-	
-	
+
 func spawn_character(player, world):
 	print("A character was spawned for " + str(player.PeerId))
 	var character = Character.instantiate()
