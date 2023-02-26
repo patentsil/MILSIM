@@ -59,12 +59,13 @@ func _on_btn_start_client_pressed():
 	startGame(multiplayer.get_unique_id(), true)
 	$Menu.hide()
 
-func _on_btn_start_server_pressed():
+func _on_btn_start_server_pressed(is_single_player = false):
 	print("Start server pressed")
 	get_window().title = "MILSIM Server"
 	print("A server start was intitiated")
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(SERVER_PORT, MAX_PLAYERS)
+	peer.set_refuse_new_connections(is_single_player)
 	multiplayer.multiplayer_peer = peer
 	$Menu.hide()
 	print("Multiplayer unique id of server is " + str(multiplayer.get_unique_id()))
@@ -133,7 +134,5 @@ func spawn_character(player, world):
 
 
 func _on_btn_start_singleplayer_pressed():
-	var player = add_player(1)
-	get_window().title = "MILSIM Singleplayer"
-	spawn_character(player, get_tree().root)
-	$Menu.hide()
+	_on_btn_start_server_pressed()
+	
