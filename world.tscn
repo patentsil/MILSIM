@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://d3scx1bhr7cfc"]
+[gd_scene load_steps=24 format=3 uid="uid://d3scx1bhr7cfc"]
 
 [ext_resource type="Texture2D" uid="uid://bdbvndoa3f8t3" path="res://assets/materials/raw/dirt_floor_1k/textures/dirt_floor_diff_1k.jpg" id="1_q1eem"]
 [ext_resource type="Script" path="res://world.gd" id="1_xarnj"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bjjr7j3pd76oj" path="res://gui/Chat.tscn" id="8_je4sl"]
 [ext_resource type="PackedScene" uid="uid://fedi2m68smsu" path="res://gui/admin/admin.tscn" id="9_yu2j0"]
 [ext_resource type="PackedScene" uid="uid://d1re0cjvs2q0a" path="res://assets/vegetation/fern_02/fern_02_1k.gltf" id="10_07mrs"]
+[ext_resource type="Script" path="res://fpscounter.gd" id="11_8svh2"]
 [ext_resource type="Material" uid="uid://bj5tchwiulb8h" path="res://assets/buildings/walls_material.tres" id="11_gpv4j"]
 [ext_resource type="Material" uid="uid://71jwmby3bwku" path="res://assets/buildings/door_frame_material.tres" id="13_fa8y2"]
 
@@ -143,8 +144,8 @@ shadow_mesh = SubResource("ArrayMesh_x840e")
 script = ExtResource("1_xarnj")
 
 [node name="sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.600448, 0.799664, 0, -0.799664, -0.600448, 0, 0, 0)
-light_energy = 0.0
+transform = Transform3D(1, 0, 0, 0, 0.932954, 0.359997, 0, -0.359997, 0.932954, 0, 0, 0)
+light_energy = 0.541
 light_indirect_energy = 0.0
 light_volumetric_fog_energy = 0.0
 light_angular_distance = 3.2
@@ -284,9 +285,28 @@ light_energy = 0.825
 light_bake_mode = 1
 omni_range = 12.5889
 
+[node name="fpscounter" type="Label" parent="."]
+offset_left = 34.0
+offset_top = 4.0
+offset_right = 74.0
+offset_bottom = 27.0
+script = ExtResource("11_8svh2")
+
+[node name="LineEdit" type="LineEdit" parent="fpscounter"]
+visible = false
+layout_mode = 0
+offset_left = 390.0
+offset_top = 210.0
+offset_right = 696.0
+offset_bottom = 241.0
+placeholder_text = "Enter desired render FPS"
+
 [connection signal="ChatClosed" from="ActionBar" to="Chat" method="_on_action_bar_chat_closed"]
 [connection signal="ChatOpened" from="ActionBar" to="Chat" method="_on_action_bar_chat_opened"]
 [connection signal="pressed" from="Menu/VBoxContainer/btnStartServer" to="." method="_on_btn_start_server_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/btnStartClient" to="." method="_on_btn_start_client_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/btnStartSingleplayer" to="." method="_on_btn_start_singleplayer_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/btnBack" to="." method="_on_btn_start_singleplayer_pressed"]
+[connection signal="focus_entered" from="fpscounter" to="fpscounter" method="_on_focus_entered"]
+[connection signal="focus_exited" from="fpscounter" to="fpscounter" method="_on_focus_exited"]
+[connection signal="text_submitted" from="fpscounter/LineEdit" to="fpscounter" method="_on_line_edit_text_submitted"]

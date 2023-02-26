@@ -54,11 +54,12 @@ func _on_btn_start_client_pressed():
 	if $Menu/VBoxContainer/leAddress.text != "":
 		desiredIP = $Menu/VBoxContainer/leAddress.text
 	peer.create_client(desiredIP, SERVER_PORT)
+	print("Client created")
 	var host = peer.host
-	host.connect("EVENT_CONNECT", func():
-		print("Connection was established")
-		$Menu.hide()
-		)
+#	host.connect("", func():
+#		print("Connection was established")
+#		$Menu.hide()
+#		)
 	client_peer = peer
 	multiplayer.multiplayer_peer = peer
 	var toHide = [$Menu/VBoxContainer/btnStartServer, $Menu/VBoxContainer/btnStartClient, $Menu/VBoxContainer/leAddress,
@@ -74,6 +75,9 @@ func _on_btn_start_client_pressed():
 		for element in toShow:
 			element.hide()
 		peer.close())
+	while peer.get_connection_status() != ENetMultiplayerPeer.CONNECTION_CONNECTED:
+		await get_tree().create_timer(0.3).timeout
+	$Menu.hide()
 	
 
 func _on_btn_start_server_pressed(is_single_player = false):
@@ -146,6 +150,7 @@ func spawn_character(player, world):
 	character.peer_id = player.PeerId
 	character.player = player
 	player.character = character
+	character.global_position = get_world().get_node("Spawn").global_position + Vector3(0, 0.5, 0)
 	world.add_child(character, true)
 	return character
 

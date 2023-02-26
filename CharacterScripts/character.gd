@@ -6,11 +6,13 @@ class_name Character
 @onready var sprite3d = $Sprite3D
 @export var player: Player = null
 @export var SPEED = 5.0
+@export var SPRINT_SPEED = 15.0
 @export var JUMP_VELOCITY = 4.5
 var wasPeerIdSet = false
 var peer_id := 0
 var input_dir = null
 var is_jump_pressed = false
+var is_sprint_pressed = false
 var look_sensitivity = ProjectSettings.get_setting("player/look_sensitivity") / 1000
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -18,6 +20,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _process(delta):
 	if not str(peer_id) == str(multiplayer.get_unique_id()): return
+	is_sprint_pressed = Input.is_action_pressed("sprint")
 	if Input.is_action_just_pressed("move_jump"):
 		is_jump_pressed = true
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
@@ -34,15 +37,18 @@ func _physics_process(delta):
 		is_jump_pressed = false
 
 	var direction = null
+	var actual_speed = SPEED
+	if is_sprint_pressed:
+		actual_speed = SPRINT_SPEED
 	if input_dir:
 		direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		input_dir = Vector3()
 	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = direction.x * actual_speed
+		velocity.z = direction.z * actual_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, actual_speed)
+		velocity.z = move_toward(velocity.z, 0, actual_speed)
 
 	move_and_slide()
 	if Input.is_action_just_pressed("interact_menu"):
@@ -98,7 +104,7 @@ func _ready():
 	var makePokeStickVisibleFunc = func():
 		await get_tree().create_timer(0.05).timeout
 		if not str(peer_id) == str(multiplayer.get_unique_id()):
-			$Camera3D/PokeStick.visible = true
+			$Camera3D/PokeStick.show()
 	
 	makePokeStickVisibleFunc.call_deferred()
 	

@@ -70,6 +70,7 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/PokeStick"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.680167)
 shape = SubResource("ConvexPolygonShape3D_2147e")
+disabled = true
 
 [node name="Flashlight" type="SpotLight3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.00771)
