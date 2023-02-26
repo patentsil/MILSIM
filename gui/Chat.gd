@@ -61,7 +61,7 @@ func visibleStateChanged(isVisible):
 func _on_text_edit_2_text_submitted(new_text):
 	if new_text.strip_edges() == "":
 		return
-	send_global_message(getCurrentPlayer().Name + ": " + new_text)
+	send_global_message(getCurrentCharacter().name + ": " + new_text)
 	$TextEdit2.text = ""
 	
 func _input(event):
