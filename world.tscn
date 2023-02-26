@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3scx1bhr7cfc"]
+[gd_scene load_steps=14 format=3 uid="uid://d3scx1bhr7cfc"]
 
 [ext_resource type="Texture2D" uid="uid://bdbvndoa3f8t3" path="res://assets/materials/raw/dirt_floor_1k/textures/dirt_floor_diff_1k.jpg" id="1_q1eem"]
 [ext_resource type="Script" path="res://world.gd" id="1_xarnj"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bxucqg1xshhty" path="res://gui/ActionBar.tscn" id="7_bb0vf"]
 [ext_resource type="Script" path="res://ServerScripts/Spawn.gd" id="8_60twa"]
 [ext_resource type="PackedScene" uid="uid://bjjr7j3pd76oj" path="res://gui/Chat.tscn" id="8_je4sl"]
+[ext_resource type="PackedScene" uid="uid://fedi2m68smsu" path="res://gui/admin/admin.tscn" id="9_yu2j0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v5pk8"]
 albedo_texture = ExtResource("1_q1eem")
@@ -114,6 +115,9 @@ visible = false
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Player.tscn")
 spawn_path = NodePath("../Players")
+
+[node name="Admin" parent="." instance=ExtResource("9_yu2j0")]
+visible = false
 
 [connection signal="ChatClosed" from="ActionBar" to="Chat" method="_on_action_bar_chat_closed"]
 [connection signal="ChatOpened" from="ActionBar" to="Chat" method="_on_action_bar_chat_opened"]

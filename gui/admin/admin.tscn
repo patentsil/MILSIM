@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://fedi2m68smsu"]
+
+[ext_resource type="Script" path="res://gui/admin/admin.gd" id="1_rt7qw"]
+
+[node name="Admin" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 365.0
+offset_top = -208.0
+offset_right = 365.0
+offset_bottom = -208.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rt7qw")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -209.0
+offset_top = -116.5
+offset_right = 209.0
+offset_bottom = 116.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+placeholder_text = "Log of admin panel."
+editable = false
+
+[node name="TextEdit2" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -209.0
+offset_top = 115.0
+offset_right = 209.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+placeholder_text = "Type commands here ..."
+
+[connection signal="text_submitted" from="TextEdit2" to="." method="_on_text_edit_2_text_submitted" flags=18]
