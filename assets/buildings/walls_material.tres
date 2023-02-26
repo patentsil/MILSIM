@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bj5tchwiulb8h"]
+
+[ext_resource type="Texture2D" uid="uid://cbtsieup3t806" path="res://assets/materials/raw/scuffed_cement_1k/textures/scuffed_cement_diff_1k.jpg" id="1_x43aa"]
+[ext_resource type="Texture2D" uid="uid://cfm2lo35pp2tc" path="res://assets/materials/raw/scuffed_cement_1k/textures/scuffed_cement_arm_1k.jpg" id="2_vc5wc"]
+
+[resource]
+albedo_texture = ExtResource("1_x43aa")
+roughness_texture = ExtResource("2_vc5wc")
+uv1_scale = Vector3(0.053, 0.053, 0.053)
+uv1_triplanar = true
+uv2_triplanar = true

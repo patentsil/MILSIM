@@ -75,7 +75,6 @@ gi_mode = 0
 visibility_range_end = 21.01
 modulate = Color(0.658824, 0.666667, 0.658824, 1)
 billboard = 1
-no_depth_test = true
 texture = SubResource("ViewportTexture_mg1a4")
 script = ExtResource("2_oi8f5")
 

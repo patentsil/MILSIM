@@ -21,7 +21,6 @@ func getCurrentPlayer():
 			pass
 			#print("Player " + player.Name + " had " + str(player.PeerId))
 
-
 func append_text(text):
 	$TextEdit.text += text + "\n"
 

@@ -6,6 +6,9 @@ var MAX_PLAYERS=3
 var Player = load("res://Player.tscn")
 var Character = load("res://character.tscn")
 var player_counter = 0
+var server_peer = null
+var client_peer = null
+var our_character = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -28,6 +31,9 @@ func _enter_tree():
 	get_tree().paused = false
 	get_window().title = "MILSIM Launcher"
 
+func _process(delta):
+	pass
+#	global_position = 
 
 func createWorld():
 	print("Creating a new world.")
@@ -39,13 +45,6 @@ func createWorld():
 func get_world():
 	return get_tree().root.get_node("World")
 
-# This also means to join the game
-func startGame(my_peer_id, is_client):
-	if is_client:
-		print("Starting a new game on the client side.")
-	else:
-		print("Starting a new game on the server side.")
-
 
 func _on_btn_start_client_pressed():
 	get_window().title = "MILSIM Client"
@@ -55,9 +54,26 @@ func _on_btn_start_client_pressed():
 	if $Menu/VBoxContainer/leAddress.text != "":
 		desiredIP = $Menu/VBoxContainer/leAddress.text
 	peer.create_client(desiredIP, SERVER_PORT)
+	var host = peer.host
+	host.connect("EVENT_CONNECT", func():
+		$Menu.visible = false
+		)
+	client_peer = peer
 	multiplayer.multiplayer_peer = peer
-	startGame(multiplayer.get_unique_id(), true)
-	$Menu.hide()
+	var toHide = [$Menu/VBoxContainer/btnStartServer, $Menu/VBoxContainer/btnStartClient, $Menu/VBoxContainer/leAddress,
+	$Menu/VBoxContainer/btnStartSingleplayer]
+	var toShow = [$Menu/VBoxContainer/btnBack, $Menu/VBoxContainer/Label]
+	for element in toHide:
+		element.hide()
+	for element in toShow:
+		element.show()
+	$Menu/VBoxContainer/btnBack.connect("pressed", func():
+		for element in toHide:
+			element.show()
+		for element in toShow:
+			element.hide()
+		peer.close())
+	
 
 func _on_btn_start_server_pressed(is_single_player = false):
 	print("Start server pressed")
@@ -66,10 +82,10 @@ func _on_btn_start_server_pressed(is_single_player = false):
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(SERVER_PORT, MAX_PLAYERS)
 	peer.set_refuse_new_connections(is_single_player)
+	server_peer = peer
 	multiplayer.multiplayer_peer = peer
 	$Menu.hide()
 	print("Multiplayer unique id of server is " + str(multiplayer.get_unique_id()))
-	startGame(multiplayer.get_unique_id(), false)
 	
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(del_player)
