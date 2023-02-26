@@ -18,7 +18,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _process(delta):
 	if not str(peer_id) == str(multiplayer.get_unique_id()): return
-	is_jump_pressed = Input.is_action_just_pressed("move_jump")
+	if Input.is_action_just_pressed("move_jump"):
+		is_jump_pressed = true
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
 	if Input.is_action_just_pressed("toggle_flashlight"):
 		$Camera3D/Flashlight.visible = not $Camera3D/Flashlight.visible
@@ -28,8 +29,7 @@ func _physics_process(delta):
 	if not str(peer_id) == str(multiplayer.get_unique_id()): return
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-
-	if is_jump_pressed and is_on_floor():
+	elif is_jump_pressed:
 		velocity.y = JUMP_VELOCITY
 		is_jump_pressed = false
 
