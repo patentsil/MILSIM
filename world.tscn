@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d3scx1bhr7cfc"]
+[gd_scene load_steps=26 format=3 uid="uid://d3scx1bhr7cfc"]
 
 [ext_resource type="Texture2D" uid="uid://bdbvndoa3f8t3" path="res://assets/materials/raw/dirt_floor_1k/textures/dirt_floor_diff_1k.jpg" id="1_q1eem"]
 [ext_resource type="Script" path="res://world.gd" id="1_xarnj"]
@@ -25,6 +25,21 @@ size = Vector3(300, 0.076, 300)
 points = PackedVector3Array(-150, -0.038, -150, -150, 0.038, -150, 150, -0.038, -150, -150, -0.038, 150, -150, 0.038, 150, 150, 0.038, -150, 150, -0.038, 150, 150, 0.038, 150)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iknrc"]
+resource_local_to_scene = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8twja"]
+viewport_path = NodePath("Spawn/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u6pos"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_8twja")
+albedo_texture_force_srgb = true
+uv1_scale = Vector3(0.416, 0.416, 0.416)
+uv1_offset = Vector3(0.385, 0.367, -0.176)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_triplanar = true
+uv2_world_triplanar = true
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_chgxe"]
 _surfaces = [{
@@ -163,10 +178,21 @@ skeleton = NodePath("")
 shape = SubResource("ConvexPolygonShape3D_yxp6l")
 
 [node name="Spawn" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.28, 0, 0, 0, 0.28, 0, 0, 0, 0.28, 4.53553, -0.0357659, -6.59642)
+transform = Transform3D(2.184, 0, 0, 0, 0.28, 0, 0, 0, 2.0132, 4.53553, -0.0357659, -6.59642)
 mesh = SubResource("BoxMesh_iknrc")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_u6pos")
 script = ExtResource("8_60twa")
+
+[node name="SubViewport" type="SubViewport" parent="Spawn"]
+use_occlusion_culling = true
+size = Vector2i(1024, 1024)
+
+[node name="Label" type="Label" parent="Spawn/SubViewport"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 100
+text = "Spawnpoint"
 
 [node name="CharacterSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://character.tscn")
