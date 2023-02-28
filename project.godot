@@ -14,6 +14,10 @@ config/name="MILSIM"
 run/main_scene="res://world.tscn"
 config/features=PackedStringArray("4.0", "Mobile")
 
+[autoload]
+
+Utils="*res://gui/admin/utils.gd"
+
 [display]
 
 window/size/mode=2
