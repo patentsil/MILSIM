@@ -24,9 +24,35 @@ func getCurrentPlayer():
 func append_text(text):
 	$TextEdit.text += text + "\n"
 
+var commands = {
+	"bring":
+		func(calling_player, players, arguments):
+			var calling_char = Utils.getCharacterFromPlayer(calling_player)
+			for player in players:
+				var char = Utils.getCharacterFromPlayer(player)
+				char.global_transform = calling_char.global_transform
+}
+
+func get_command(command_name):
+	return commands[command_name]
+
+func process_command(sending_player, command_text):
+	var split = command_text.rsplit(" ")
+	var command_name = split[0]
+	var command_func = get_command(command_name)
+	if not command_func:
+		print("Now going to send rpc_id to the player's peer id to make them see that the command failed")
+		return
+	var who = split[1]
+	var who_split = who.rsplit(",")
+	print(split, who_split)
+
 @rpc("call_local")
 func transfer_message_to_server(message):
+	var sending_player_id = multiplayer.get_remote_sender_id()
+	var sending_player = get
 	append_text(message)
+	process_command(null, message)
 	receiveMessage.rpc(message)
 	
 @rpc("any_peer")
@@ -40,6 +66,7 @@ func send_global_message(message) -> void:
 	if multiplayer.is_server():
 		append_text(message)
 		receiveMessage.rpc(message)
+		transfer_message_to_server(message)
 	else:
 		transfer_message_to_server.rpc(message)
 
@@ -60,7 +87,7 @@ func visibleStateChanged(isVisible):
 func _on_text_edit_2_text_submitted(new_text):
 	if new_text.strip_edges() == "":
 		return
-	send_global_message(getCurrentCharacter().name + ": " + new_text)
+	send_global_message(new_text)
 	$TextEdit2.text = ""
 	
 func _input(event):

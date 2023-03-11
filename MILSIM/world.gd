@@ -1,5 +1,4 @@
 extends Node3D
-
 var SERVER_IP="127.0.0.1"
 var SERVER_PORT=9999
 var MAX_PLAYERS=3
@@ -28,6 +27,7 @@ func del_player(id: int):
 	pass
 
 func _enter_tree():
+	Utils.world = self
 	get_tree().paused = false
 	get_window().title = "MILSIM Launcher"
 
